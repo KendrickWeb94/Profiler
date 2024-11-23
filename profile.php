@@ -41,7 +41,7 @@ if (isset($_GET['logout'])) {
             </div>
             <div class="profile_content_right">
                 <h5><?php echo htmlspecialchars($age); ?> years old</h5>
-                <a href="./logout.php" class="btn">Logout</a>
+                <a href="logout.php" class="btn">Logout</a>
             </div>
         </div>
         <div class="bio">

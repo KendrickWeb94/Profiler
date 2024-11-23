@@ -1,13 +1,8 @@
 <?php
-if (isset($_SESSION['user_id'])) {
-    header("Location: profile.php");
-    exit();
-}
-
 session_start();
 include './connection.php'; // Include your database connection
 
-// Redirect to profile.php if the user is already logged in
+// Redirect logged-in users to profile.php
 if (isset($_SESSION['user_id'])) {
     header("Location: profile.php");
     exit();
@@ -25,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imageTmpPath = $_FILES['image']['tmp_name'];
         $imageName = uniqid() . '-' . basename($_FILES['image']['name']);
         $imageUploadPath = './uploads/' . $imageName;
-
+    
         // Move the uploaded file to the uploads directory
         if (move_uploaded_file($imageTmpPath, $imageUploadPath)) {
             $imagePath = $imageUploadPath; // Save the path to the database
@@ -79,12 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="./style.css">
 </head>
 
+<?php if (isset($error)): ?>
+    <div class='error'><?php echo $error; ?></div>
+<?php endif; ?>
+
 <body>
-  
+
     <div class="wrapper">
-        <?php if (isset($error)): ?>
-            <div class='error'><?php echo $error; ?></div>
-        <?php endif; ?>
         <br>
         <form action="index.php" method="POST" enctype="multipart/form-data">
             <div class="form_box">
@@ -107,8 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="file" required accept=".jpg,.png,.svg" name="image" id="image">
             </div>
             <input type="submit" name="submit" value="Create your Profile">
-            <br>
-            <p>Already have an account?  <a href="index.php">Login here</a>.</p>
         </form>
     </div>
 </body>
